@@ -2,15 +2,18 @@ import {attach, combine, createEffect, createEvent, createStore} from "effector"
 import {$M} from '../presets'
 import {$weight} from "../weight";
 
+export const getS = (Xs, Ws) =>
+    Xs
+        .reduce(
+            (result, x, index) => result + x * Ws[index],
+            0
+        )
+
 export const bipolarTeacher = ({
     id: 1,
     getNextWeight: (old, x, y) => old + x * y,
     activation: (xs, ws, S = 0) =>
-        xs
-            .reduce(
-                (result, x, index) => result + x * ws[index],
-                0
-            ) > S
+        getS(xs, ws) > S
             ? 1
             : -1,
     fieldY: 'bipolar',
@@ -28,11 +31,7 @@ export const binTeacher = ({
         return old + delta;
     },
     activation: (xs, ws, S = 0) =>
-        xs
-            .reduce(
-                (result, x, index) => result + x * ws[index],
-                0
-            ) > S
+        getS(xs, ws) > S
             ? 1
             : 0,
     fieldY: 'bin',

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, Typography} from "@mui/material";
-import {$teacher} from "../../models/teacher";
+import {$teacher, getS} from "../../models/teacher";
 import {useStore} from "effector-react";
 import {makeStyles} from "@mui/styles";
 import {$weight} from "../../models/weight";
@@ -31,8 +31,12 @@ export default function Result() {
     const M = useStore($M)
 
     const [result, setResult] = useState(null)
+    const [S, setS] = useState(null)
+    const [frontierS, setFrontierS] = useState(null)
     useEffect(() => {
         setResult(null)
+        setS(null)
+        setFrontierS(null)
     }, [teacher])
 
     const handleRecognize = () => {
@@ -41,10 +45,12 @@ export default function Result() {
 
         const S = average([average(firstType), average(secondType)])
 
+        setFrontierS(S)
         setResult(
             teacher
                 .activation([1, ...map], weights, S)
         )
+        setS(getS([1, ...map], weights))
     }
 
     return (
@@ -53,6 +59,20 @@ export default function Result() {
                 {
                     result
                         ? `Результат: ${result}`
+                        : 'Сначала посчитай!'
+                }
+            </Typography>
+            <Typography variant={'h5'}>
+                {
+                    result
+                        ? `S: ${S}`
+                        : 'Сначала посчитай!'
+                }
+            </Typography>
+            <Typography variant={'h5'}>
+                {
+                    result
+                        ? `Пороговый S: ${frontierS}`
                         : 'Сначала посчитай!'
                 }
             </Typography>

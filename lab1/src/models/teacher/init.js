@@ -1,6 +1,6 @@
 import {
     $teacher,
-    changeTeacher,
+    changeTeacher, getS,
     teachEvent,
 } from './index'
 import {setWeights} from "../weight";
@@ -30,10 +30,7 @@ const handleTeach = (teacher, {M, weight}) => {
     setWeights(W)
     setSs(
         teacherMs.map(
-            m => m.x.reduce(
-                (result, x, index) => result + x * W[index],
-                0
-            )
+            m => getS(m.x, W)
         )
     )
 }
