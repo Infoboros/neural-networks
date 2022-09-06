@@ -21,7 +21,7 @@ export default function PresetList() {
         >
             {
                 M.map(
-                    ({x, t}, index) => (
+                    ({x, t, S}, index) => (
                         <div
                             style={{
                                 border: '1px solid',
@@ -32,6 +32,9 @@ export default function PresetList() {
                         >
                             <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
                                 Ожидаемый результат: {t[teacher.fieldY]}
+                            </Typography>
+                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
+                                S: {S}
                             </Typography>
                             <Map
                                 width={'32px'}

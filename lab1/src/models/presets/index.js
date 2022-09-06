@@ -1,4 +1,4 @@
-import {createStore} from "effector";
+import {createEvent, createStore} from "effector";
 
 
 export const $M = createStore([
@@ -13,7 +13,8 @@ export const $M = createStore([
         t: {
             bipolar: 1,
             bin: 1
-        }
+        },
+        S: 0
     },
     {
         x: [
@@ -26,7 +27,8 @@ export const $M = createStore([
         t: {
             bipolar: 1,
             bin: 1
-        }
+        },
+        S: 0
     },
     {
         x: [
@@ -39,7 +41,8 @@ export const $M = createStore([
         t: {
             bipolar: -1,
             bin: 0
-        }
+        },
+        S: 0
     },
     {
         x: [
@@ -52,6 +55,10 @@ export const $M = createStore([
         t: {
             bipolar: -1,
             bin: 0
-        }
+        },
+        S: 0
     },
 ])
+
+
+export const setSs = createEvent()

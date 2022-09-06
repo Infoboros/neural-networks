@@ -10,7 +10,7 @@ export const bipolarTeacher = ({
             .reduce(
                 (result, x, index) => result + x * ws[index],
                 0
-            ) > 0
+            ) > S
             ? 1
             : -1,
     fieldY: 'bipolar',
@@ -32,7 +32,7 @@ export const binTeacher = ({
             .reduce(
                 (result, x, index) => result + x * ws[index],
                 0
-            ) > 0
+            ) > S
             ? 1
             : 0,
     fieldY: 'bin',
