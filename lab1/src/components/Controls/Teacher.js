@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, MenuItem, Select} from "@mui/material";
+import {Button, MenuItem, Select, TextField} from "@mui/material";
 import {$teacher, changeTeacher, teach, teachers} from "../../models/teacher";
 import {useStore} from "effector-react";
 import {makeStyles} from "@mui/styles";
@@ -42,6 +42,23 @@ export default function Teacher() {
                     ))
                 }
             </Select>
+            <TextField
+                style={{marginTop: '16px'}}
+                label={'Коэффициент обучения'}
+
+                value={teacher.learningRate}
+                onChange={
+                    ({target}) =>
+                        changeTeacher(
+                            {
+                                ...teacher,
+                                learningRate: target.value
+                            }
+                        )
+                }
+
+                type={'number'}
+            />
             <Button
                 style={{marginTop: '16px'}}
                 variant={'contained'}

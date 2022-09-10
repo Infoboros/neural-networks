@@ -21,11 +21,10 @@ const handleTeach = (teacher, {M, weight}) => {
         teacherMs
             .forEach(
                 m => {
-                    W = W.map((oldW, index) => teacher.getNextWeight(oldW, m.x[index], m.t))
+                    W = W.map((oldW, index) => teacher.getNextWeight(oldW, m.x[index], m.t, teacher.learningRate))
                 }
             )
     }
-
 
     setWeights(W)
     setSs(

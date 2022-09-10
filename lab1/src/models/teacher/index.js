@@ -11,31 +11,33 @@ export const getS = (Xs, Ws) =>
 
 export const bipolarTeacher = ({
     id: 1,
-    getNextWeight: (old, x, y) => old + x * y,
+    getNextWeight: (old, x, y, k = 1.0) => old + x * y * k,
     activation: (xs, ws, S = 0) =>
         getS(xs, ws) > S
             ? 1
             : -1,
     fieldY: 'bipolar',
-    name: 'Биполярный'
+    name: 'Биполярный',
+    learningRate: 1.0
 })
 
 export const binTeacher = ({
     id: 2,
-    getNextWeight: (old, x, y) => {
+    getNextWeight: (old, x, y, k=1.0) => {
         let delta = 0;
         if ((x === 1) && (y === 1))
             delta = 1;
         if ((x !== 0) && (y === 0))
             delta = -1;
-        return old + delta;
+        return old + delta * k;
     },
     activation: (xs, ws, S = 0) =>
         getS(xs, ws) > S
             ? 1
             : 0,
     fieldY: 'bin',
-    name: 'Бинарный'
+    name: 'Бинарный',
+    learningRate: 1.0
 })
 
 export const teachers = [bipolarTeacher, binTeacher]
