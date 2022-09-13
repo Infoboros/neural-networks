@@ -5,6 +5,7 @@ import {
 } from './index'
 import {setWeights} from "../weight";
 import {setSs} from "../presets";
+import {setCountOperations} from "../info";
 
 const handleChangeTeacher = (_, teacher) => teacher
 
@@ -17,7 +18,9 @@ const handleTeach = (teacher, {M, weight}) => {
             m => teacher.activation(m.x, W) !== m.t
         )
 
+    let countOperations = 0;
     while (checkNotEnd()) {
+        ++countOperations;
         teacherMs
             .forEach(
                 m => {
@@ -32,6 +35,7 @@ const handleTeach = (teacher, {M, weight}) => {
             m => getS(m.x, W)
         )
     )
+    setCountOperations(countOperations)
 }
 
 $teacher

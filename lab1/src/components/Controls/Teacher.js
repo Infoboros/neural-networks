@@ -1,8 +1,9 @@
 import React from "react";
-import {Button, MenuItem, Select, TextField} from "@mui/material";
+import {Button, MenuItem, Select, TextField, Typography} from "@mui/material";
 import {$teacher, changeTeacher, teach, teachers} from "../../models/teacher";
 import {useStore} from "effector-react";
 import {makeStyles} from "@mui/styles";
+import {$info} from "../../models/info";
 
 const useStyles = makeStyles(() => ({
     wrapper: {
@@ -19,6 +20,7 @@ export default function Teacher() {
     const classes = useStyles()
 
     const teacher = useStore($teacher)
+    const {countOperations} = useStore($info)
 
     return (
         <div className={classes.wrapper}>
@@ -59,6 +61,11 @@ export default function Teacher() {
 
                 type={'number'}
             />
+            <Typography textAlign={'center'} style={{marginTop: 8}}>
+                Количество итераций при обучении:
+                <br/>
+                {countOperations || 'Пока не обучалось'}
+            </Typography>
             <Button
                 style={{marginTop: '16px'}}
                 variant={'contained'}
