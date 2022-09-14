@@ -11,7 +11,7 @@ export const getS = (Xs, Ws) =>
 
 export const bipolarTeacher = ({
     id: 1,
-    getNextWeight: (old, x, y, k = 1.0) => old + x * y * k,
+    getNextWeight: (old, x, y, k = 1.0) => old + (x || -1) * y * k,
     activation: (xs, ws, S = 0) =>
         getS(xs, ws) > S
             ? 1

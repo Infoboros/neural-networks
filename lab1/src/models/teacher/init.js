@@ -28,7 +28,7 @@ const handleTeach = (teacher, {M, weight}) => {
                 }
             )
     }
-
+    console.log(teacher)
     setWeights(W)
     setSs(
         teacherMs.map(
