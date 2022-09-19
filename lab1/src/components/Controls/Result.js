@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
-import {Button, Typography} from "@mui/material";
+import {Button, MenuItem, Select, Typography} from "@mui/material";
 import {$teacher, getS} from "../../models/teacher";
 import {useStore} from "effector-react";
 import {makeStyles} from "@mui/styles";
 import {$weight} from "../../models/weight";
 import {$input} from "../../models/input";
 import {$M} from "../../models/presets";
+import {$recognize, average, recognizeFunctions, setRecognize} from "../../models/recognize";
 
 const useStyles = makeStyles(() => ({
     wrapper: {
@@ -18,10 +19,6 @@ const useStyles = makeStyles(() => ({
     }
 }))
 
-function average(nums) {
-    return nums.reduce((a, b) => (a + b)) / nums.length;
-}
-
 export default function Result() {
     const classes = useStyles()
 
@@ -29,10 +26,12 @@ export default function Result() {
     const teacher = useStore($teacher)
     const weights = useStore($weight)
     const M = useStore($M)
+    const recognize = useStore($recognize);
 
     const [result, setResult] = useState(null)
     const [S, setS] = useState(null)
     const [frontierS, setFrontierS] = useState(null)
+
     useEffect(() => {
         setResult(null)
         setS(null)
@@ -40,15 +39,15 @@ export default function Result() {
     }, [teacher])
 
     const handleRecognize = () => {
-        const firstType = M.filter(({t}) => t.bin === 1).map(({S}) => S)
-        const secondType = M.filter(({t}) => t.bin === 0).map(({S}) => S)
+        const S1 = average(M.filter(({t}) => t.bin === 1).map(({S}) => S))
+        const S0 = average(M.filter(({t}) => t.bin === 0).map(({S}) => S))
 
-        const S = average([average(firstType), average(secondType)])
+        console.log(recognize)
+        console.log(recognize.recognize([1, ...map], weights, S1, S0))
 
-        setFrontierS(S)
+        setFrontierS(recognize.getFrontier(S1, S0))
         setResult(
-            teacher
-                .activation([1, ...map], weights, S)
+            recognize.recognize([1, ...map], weights, S1, S0)
         )
         setS(getS([1, ...map], weights))
     }
@@ -57,27 +56,48 @@ export default function Result() {
         <div className={classes.wrapper}>
             <Typography variant={'h5'}>
                 {
-                    result
+                    (result <= 1)
                         ? `Результат: ${result}`
                         : 'Сначала посчитай!'
                 }
             </Typography>
             <Typography variant={'h5'}>
                 {
-                    result
+                    (result <= 1)
                         ? `S: ${S}`
                         : 'Сначала посчитай!'
                 }
             </Typography>
             <Typography variant={'h5'}>
                 {
-                    result
+                    (result <= 1)
                         ? `Пороговый S: ${frontierS}`
                         : 'Сначала посчитай!'
                 }
             </Typography>
+            <Select
+                style={{marginTop: '8px'}}
+                value={recognize.id}
+                onChange={
+                    ({target}) =>
+                        setRecognize(
+                            target.value
+                        )
+                }
+            >
+                {
+                    recognizeFunctions.map(({id, name}) => (
+                        <MenuItem
+                            value={id}
+                            key={id}
+                        >
+                            {name}
+                        </MenuItem>
+                    ))
+                }
+            </Select>
             <Button
-                style={{marginTop: '16px'}}
+                style={{marginTop: '8px'}}
                 variant={'contained'}
                 onClick={handleRecognize}
             >
