@@ -31,15 +31,20 @@ export const recognizeFunctions = [
     {
         id: 3,
         recognize: (xs, ws, S1, S0) => {
-            const S = getS(xs, ws)
+            console.log(S1, S0)
+            const averageS = average([S1, S0])
+            console.log('avgS', averageS)
+            const S = getS(xs, ws) - averageS
+            console.log('S', S)
             const T =
                 -Math.log((1 - 0.9) / 0.9)
                 /
-                average([divider(S1, S0, 1. / 3.), divider(S1, S0, 2. / 3.)])
+                (divider(S0, S1, 2.) - averageS)
+            console.log('T', T)
             return 1/ (1 + Math.exp(-T*S))
         },
         name: 'Бинарная Сигмоидальная',
-        getFrontier: (S1, S0) => `Q1=${divider(S0, S1, 1. / 3.)};Q2=${divider(S0, S1, 2. / 3.)}`
+        getFrontier: (S1, S0) => `Q1=${divider(S0, S1, 1/2)};Q2=${divider(S0, S1, 2)}`
     }
 ]
 
