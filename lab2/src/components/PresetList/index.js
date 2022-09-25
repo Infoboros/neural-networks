@@ -1,0 +1,50 @@
+import React from "react";
+import {List, Typography} from "@mui/material";
+import Map from "../Map";
+import {$M} from "../../models/presets";
+import {useStore} from "effector-react";
+import {setInput} from "../../models/input";
+import {$teacher} from "../../models/teacher";
+
+export default function PresetList() {
+
+    const M = useStore($M)
+    const teacher = useStore($teacher)
+
+    return (
+        <List
+            style={{
+                height: '100%',
+                overflowY: 'scroll',
+                padding: 0
+            }}
+        >
+            {
+                M.map(
+                    ({x, t, S}, index) => (
+                        <div
+                            style={{
+                                border: '1px solid',
+                                borderRadius: '8px',
+                                padding: '16px 0'
+                            }}
+                            onClick={() => setInput(x)}
+                        >
+                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
+                                Ожидаемый результат: {t[teacher.fieldY]}
+                            </Typography>
+                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
+                                S: {S}
+                            </Typography>
+                            <Map
+                                width={'32px'}
+                                x={x}
+                                key={index}
+                            />
+                        </div>
+                    )
+                )
+            }
+        </List>
+    )
+}
