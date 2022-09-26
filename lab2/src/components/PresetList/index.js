@@ -9,7 +9,6 @@ import {$teacher} from "../../models/teacher";
 export default function PresetList() {
 
     const M = useStore($M)
-    const teacher = useStore($teacher)
 
     return (
         <List
@@ -31,7 +30,7 @@ export default function PresetList() {
                             onClick={() => setInput(x)}
                         >
                             <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
-                                Ожидаемый результат: {t[teacher.fieldY]}
+                                Ожидаемый результат: {t}
                             </Typography>
                             <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
                                 S: {S}

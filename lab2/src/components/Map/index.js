@@ -30,8 +30,8 @@ export default function Map(props) {
     } = props
     const classes = useStyles()
 
-    const yIndexes = [0, 1, 2, 3, 4]
-    const xIndexes = [0, 1, 2, 3, 4]
+    const yIndexes = [0, 1, 2, 3]
+    const xIndexes = [0, 1, 2, 3]
 
     return (
         <div className={classes.wrapper}>

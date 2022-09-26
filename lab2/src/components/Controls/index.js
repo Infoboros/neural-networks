@@ -9,7 +9,8 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        overflow: 'auto'
     }
 }))
 
@@ -20,8 +21,8 @@ export default function Controls(){
     return (
         <div className={classes.root}>
             <Teacher/>
-            <Weight/>
             <Result/>
+            <Weight/>
         </div>
     )
 }
