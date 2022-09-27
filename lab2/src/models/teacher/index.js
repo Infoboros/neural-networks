@@ -13,9 +13,11 @@ export const bipolarTeacher = ({
     id: 1,
     getNextWeight: (old, x, y, k = 1.0) => old + (x || -1) * y * k,
     activation: (xs, ws, S = 0) =>
-        getS(xs, ws) > S
-            ? 1
-            : -1,
+        ws.map(w =>
+            getS(xs, w) > S
+                ? 1
+                : -1
+        ),
     fieldY: 'bipolar',
     name: 'Биполярный',
     learningRate: 1.0
@@ -23,7 +25,7 @@ export const bipolarTeacher = ({
 
 export const binTeacher = ({
     id: 2,
-    getNextWeight: (old, x, y, k=1.0) => {
+    getNextWeight: (old, x, y, k = 1.0) => {
         let delta = 0;
         if ((x === 1) && (y === 1))
             delta = 1;
@@ -32,9 +34,11 @@ export const binTeacher = ({
         return old + delta * k;
     },
     activation: (xs, ws, S = 0) =>
-        getS(xs, ws) > S
-            ? 1
-            : 0,
+        ws.map(w =>
+            getS(xs, w) > S
+                ? 1
+                : 0
+        ),
     fieldY: 'bin',
     name: 'Бинарный',
     learningRate: 1.0
@@ -42,7 +46,7 @@ export const binTeacher = ({
 
 export const teachers = [bipolarTeacher, binTeacher]
 
-export const $teacher = createStore(bipolarTeacher)
+export const $teacher = createStore(binTeacher)
 
 export const changeTeacher = createEvent()
 

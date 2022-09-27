@@ -9,13 +9,26 @@ import {setCountOperations} from "../info";
 
 const handleChangeTeacher = (_, teacher) => teacher
 
+const equalArray = (a, b) => {
+    if (a.length !== b.length)
+        return false
+
+    let equal = true;
+    a.forEach((itemA, indexB) => {
+        if (itemA !== b[indexB])
+            equal = false
+    })
+
+    return equal
+}
+
 const handleTeach = (teacher, {M, weight}) => {
-    const teacherMs = M.map(m => ({t: m.t[teacher.fieldY], x: [1, ...m.x]}))
-    let W = weight.map(() => 0)
+    const teacherMs = M.map(({x, ...m}) => ({...m, x: [1, ...x]}))
+    let W = weight.map(weightRow => weightRow.map(() => 0))
 
     const checkNotEnd = () => teacherMs
         .some(
-            m => teacher.activation(m.x, W) !== m.t
+            m => !equalArray(teacher.activation(m.x, W), m.t)
         )
 
     let countOperations = 0;
@@ -24,16 +37,29 @@ const handleTeach = (teacher, {M, weight}) => {
         teacherMs
             .forEach(
                 m => {
-                    W = W.map((oldW, index) => teacher.getNextWeight(oldW, m.x[index], m.t, teacher.learningRate))
+                    W = W.map(
+                        (wRow, indexWRow) =>
+                            wRow
+                                .map(
+                                    (oldW, index) =>
+                                        teacher.getNextWeight(
+                                            oldW,
+                                            m.x[index],
+                                            m.t[indexWRow],
+                                            teacher.learningRate
+                                        )
+                                )
+                    )
                 }
             )
     }
     console.log(teacher)
     setWeights(W)
     setSs(
-        teacherMs.map(
-            m => getS(m.x, W)
-        )
+        teacherMs
+            .map(
+                m => W.map(w => getS(m.x, w))
+            )
     )
     setCountOperations(countOperations)
 }

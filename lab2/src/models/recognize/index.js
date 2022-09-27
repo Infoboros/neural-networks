@@ -48,6 +48,6 @@ export const recognizeFunctions = [
     }
 ]
 
-export const $recognize = createStore(recognizeFunctions[0])
+export const $recognize = createStore(recognizeFunctions[1])
 
 export const setRecognize = createEvent()

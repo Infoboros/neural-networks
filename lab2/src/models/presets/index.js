@@ -4,10 +4,10 @@ import {createEvent, createStore} from "effector";
 export const $M = createStore([
     {
         x: [
+            1, 1, 1, 1,
             1, 0, 0, 1,
-            0, 1, 1, 0,
-            0, 1, 1, 0,
             1, 0, 0, 1,
+            1, 1, 1, 1,
         ],
         t: [1, 0, 0, 0, 0],
         S: 0
