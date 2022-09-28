@@ -6,6 +6,7 @@ import {
 import {setWeights} from "../weight";
 import {setSs} from "../presets";
 import {setCountOperations} from "../info";
+import {average} from "../recognize";
 
 const handleChangeTeacher = (_, teacher) => teacher
 
@@ -26,9 +27,33 @@ const handleTeach = (teacher, {M, weight}) => {
     const teacherMs = M.map(({x, ...m}) => ({...m, x: [1, ...x]}))
     let W = weight.map(weightRow => weightRow.map(() => 0))
 
-    const checkNotEnd = () => teacherMs
+    const checkNotEnd = () => W
         .some(
-            m => !equalArray(teacher.activation(m.x, W), m.t)
+            (w, indexW) => {
+                const Ss = teacherMs.map(m => getS(m.x, w))
+                const {
+                    Sone, Sother
+                } = Ss.reduce(
+                    (result, s, index) => teacherMs[index].t[indexW]
+                        ? ({
+                            ...result,
+                            Sone: result.Sone + s,
+                        })
+                        : ({
+                            ...result,
+                            Sother: result.Sother + s,
+                        }),
+                    {Sone: 0, Sother: 0}
+                )
+                return teacherMs.some(
+                    (m, indexM) => {
+                        const a = teacher.activation(m.x, w, average([Sone, Sother / 4]))
+                        const a1 = m.t[indexW]
+                        const t = teacher.activation(m.x, w, average([Sone, Sother / 4])) !== m.t[indexW]
+                        return t
+                    }
+                )
+            }
         )
 
     let countOperations = 0;

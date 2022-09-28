@@ -39,38 +39,57 @@ export default function Result() {
     }, [teacher])
 
     const handleRecognize = () => {
-        const S1 = average(M.filter(({t}) => t.bin === 1).map(({S}) => S))
-        const S0 = average(M.filter(({t}) => t.bin === 0).map(({S}) => S))
+        const Sfrontiers = weights.map((w, indexW) => {
+            const Ss = M.map(m => getS([1, ...m.x], w))
+            const {
+                Sone, Sother
+            } = Ss.reduce(
+                (result, s, index) => M[index].t[indexW]
+                    ? ({
+                        ...result,
+                        Sone: result.Sone + s,
+                    })
+                    : ({
+                        ...result,
+                        Sother: result.Sother + s,
+                    }),
+                {Sone: 0, Sother: 0}
+            )
+            return recognize.getFrontier(Sone, Sother / 4.)
+        })
 
-        console.log(recognize)
-        console.log(recognize.recognize([1, ...map], weights, S1, S0))
-
-        setFrontierS(recognize.getFrontier(S1, S0))
+        setFrontierS(Sfrontiers)
         setResult(
-            recognize.recognize([1, ...map], weights, S1, S0)
+            weights.map(
+                (w, index) => recognize.recognize([1, ...map], w, Sfrontiers[index], Sfrontiers[index])
+            )
         )
-        setS(getS([1, ...map], weights))
+        setS(
+            weights.map(
+                w => getS([1, ...map], w)
+            )
+        )
     }
 
     return (
         <div className={classes.wrapper}>
             <Typography variant={'h5'}>
                 {
-                    (result <= 1)
+                    (result)
                         ? `Результат: ${result}`
                         : 'Сначала посчитай!'
                 }
             </Typography>
             <Typography variant={'h5'}>
                 {
-                    (result <= 1)
+                    (result)
                         ? `S: ${S}`
                         : 'Сначала посчитай!'
                 }
             </Typography>
             <Typography variant={'h5'}>
                 {
-                    (result <= 1)
+                    (result)
                         ? `Пороговый S: ${frontierS}`
                         : 'Сначала посчитай!'
                 }

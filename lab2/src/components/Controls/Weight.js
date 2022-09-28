@@ -20,8 +20,8 @@ const useStyles = makeStyles(() => ({
 export default function Weight() {
     const classes = useStyles()
 
-    const indexsY = [0, 1, 2, 3];
-    const indexsX = [-1, 0, 1, 2, 3]
+    const indexsY = [0, 1, 2, 3, 4];
+    const indexsX = [-1, 0, 1, 2, 3, 4]
 
     const weight = useStore($weight)
 

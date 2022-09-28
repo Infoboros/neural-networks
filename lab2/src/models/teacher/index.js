@@ -12,12 +12,10 @@ export const getS = (Xs, Ws) =>
 export const bipolarTeacher = ({
     id: 1,
     getNextWeight: (old, x, y, k = 1.0) => old + (x || -1) * y * k,
-    activation: (xs, ws, S = 0) =>
-        ws.map(w =>
-            getS(xs, w) > S
-                ? 1
-                : -1
-        ),
+    activation: (xs, w, S = 0) =>
+        getS(xs, w) > S
+            ? 1
+            : -1,
     fieldY: 'bipolar',
     name: 'Биполярный',
     learningRate: 1.0
@@ -33,12 +31,10 @@ export const binTeacher = ({
             delta = -1;
         return old + delta * k;
     },
-    activation: (xs, ws, S = 0) =>
-        ws.map(w =>
-            getS(xs, w) > S
-                ? 1
-                : 0
-        ),
+    activation: (xs, w, S = 0) =>
+        getS(xs, w) > S
+            ? 1
+            : 0,
     fieldY: 'bin',
     name: 'Бинарный',
     learningRate: 1.0
