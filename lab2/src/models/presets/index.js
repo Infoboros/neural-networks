@@ -11,7 +11,8 @@ export const $M = createStore([
             1, 0, 0, 0, 1,
         ],
         t: [1, 0, 0, 0, 0],
-        S: 0
+        S: 0,
+        diff: 0
     },
     {
         x: [
@@ -22,7 +23,8 @@ export const $M = createStore([
             1, 0, 0, 0, 1,
         ],
         t: [0, 1, 0, 0, 0],
-        S: 0
+        S: 0,
+        diff: 0
     },
     {
         x: [
@@ -33,7 +35,8 @@ export const $M = createStore([
             1, 0, 0, 0, 0,
         ],
         t: [0, 0, 1, 0, 0],
-        S: 0
+        S: 0,
+        diff: 0
     },
     {
         x: [
@@ -44,7 +47,8 @@ export const $M = createStore([
             1, 0, 0, 0, 1,
         ],
         t: [0, 0, 0, 1, 0],
-        S: 0
+        S: 0,
+        diff: 0
     },
     {
         x: [
@@ -55,9 +59,11 @@ export const $M = createStore([
             0, 1, 1, 1, 0,
         ],
         t: [0, 0, 0, 0, 1],
-        S: 0
+        S: 0,
+        diff: 0
     },
 ])
 
 
 export const setSs = createEvent()
+export const setDiffs = createEvent()

@@ -9,6 +9,15 @@ export const getS = (Xs, Ws) =>
             0
         )
 
+export const getDiff = (A, B) => A.reduce(
+    (res, a, indexB) => {
+        if (a !== B[indexB])
+            return res + 1;
+        return res;
+    },
+    0
+)
+
 export const bipolarTeacher = ({
     id: 1,
     getNextWeight: (old, x, y, k = 1.0) => old + (x || -1) * y * k,

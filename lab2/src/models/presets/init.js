@@ -1,5 +1,5 @@
 import {
-    $M,
+    $M, setDiffs,
     setSs
 } from "./index";
 
@@ -10,3 +10,12 @@ const handleSetSs = (M, Ss) =>
 
 $M
     .on(setSs, handleSetSs)
+
+const handleSetDiffs = (M, diffs) =>
+    M.map(
+        (m, index) => ({...m, diff: diffs[index]})
+    )
+
+$M
+    .on(setSs, handleSetSs)
+    .on(setDiffs, handleSetDiffs)

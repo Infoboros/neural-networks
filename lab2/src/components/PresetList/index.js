@@ -4,7 +4,6 @@ import Map from "../Map";
 import {$M} from "../../models/presets";
 import {useStore} from "effector-react";
 import {setInput} from "../../models/input";
-import {$teacher} from "../../models/teacher";
 
 export default function PresetList() {
 
@@ -20,7 +19,7 @@ export default function PresetList() {
         >
             {
                 M.map(
-                    ({x, t, S}, index) => (
+                    ({x, t, S, diff}, index) => (
                         <div
                             style={{
                                 border: '1px solid',
@@ -29,11 +28,14 @@ export default function PresetList() {
                             }}
                             onClick={() => setInput(x)}
                         >
-                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
+                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '8px'}}>
                                 Ожидаемый результат: {t}
                             </Typography>
-                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '16px'}}>
+                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '8px'}}>
                                 S: {S}
+                            </Typography>
+                            <Typography style={{width: '100%', textAlign: 'center', marginBottom: '8px'}}>
+                                Мера сходства: {diff}
                             </Typography>
                             <Map
                                 width={'32px'}

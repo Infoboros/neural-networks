@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Button, MenuItem, Select, Typography} from "@mui/material";
-import {$teacher, getS} from "../../models/teacher";
+import {$teacher, getDiff, getS} from "../../models/teacher";
 import {useStore} from "effector-react";
 import {makeStyles} from "@mui/styles";
 import {$weight} from "../../models/weight";
 import {$input} from "../../models/input";
-import {$M} from "../../models/presets";
-import {$recognize, average, recognizeFunctions, setRecognize} from "../../models/recognize";
+import {$M, setDiffs} from "../../models/presets";
+import {$recognize, recognizeFunctions, setRecognize} from "../../models/recognize";
 
 const useStyles = makeStyles(() => ({
     wrapper: {
@@ -68,6 +68,12 @@ export default function Result() {
             weights.map(
                 w => getS([1, ...map], w)
             )
+        )
+        setDiffs(
+            M
+                .map(
+                    ({x}) => getDiff(x, map)
+                )
         )
     }
 
