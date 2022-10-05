@@ -14,7 +14,8 @@ export const $M = createStore([
             bipolar: 1,
             bin: 1
         },
-        S: 0
+        S: 0,
+        diff: 0
     },
     {
         x: [
@@ -28,7 +29,8 @@ export const $M = createStore([
             bipolar: 1,
             bin: 1
         },
-        S: 0
+        S: 0,
+        diff: 0
     },
     {
         x: [
@@ -42,7 +44,8 @@ export const $M = createStore([
             bipolar: -1,
             bin: 0
         },
-        S: 0
+        S: 0,
+        diff: 0
     },
     {
         x: [
@@ -56,9 +59,11 @@ export const $M = createStore([
             bipolar: -1,
             bin: 0
         },
-        S: 0
+        S: 0,
+        diff: 0
     },
 ])
 
 
 export const setSs = createEvent()
+export const setDiffs = createEvent()

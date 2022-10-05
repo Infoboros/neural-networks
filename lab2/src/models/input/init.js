@@ -12,7 +12,7 @@ const handleHandleInput = (state, value) =>
     state.map(
         (cell, index) =>
             index === value
-                ? !cell
+                ? (cell === 1 ? 0 : 1)
                 : cell
     )
 
