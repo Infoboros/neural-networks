@@ -73,13 +73,6 @@ export default function Result() {
                         : 'Сначала посчитай!'
                 }
             </Typography>
-            <Typography variant={'h5'}>
-                {
-                    (result)
-                        ? `Пороговый S: ${frontierS}`
-                        : 'Сначала посчитай!'
-                }
-            </Typography>
             <Select
                 style={{marginTop: '8px'}}
                 value={recognize.id}
