@@ -38,18 +38,32 @@ const handleTeach = (teacher, {M, weight}) => {
                                         )
                                 )
 
-                            const delta = newWRow.reduce(
-                                (processedDelta, newW, indexW) => Math.abs(newW - wRow[indexW]) + processedDelta,
-                                0.0
-                            )
-                            if (delta <= teacher.epsilon)
-                                teached.push(indexWRow)
+                            // const delta = newWRow.reduce(
+                            //     (processedDelta, newW, indexW) => Math.abs(newW - wRow[indexW]) + processedDelta,
+                            //     0.0
+                            // )
+                            // if (delta <= teacher.epsilon)
+                            //     teached.push(indexWRow)
 
                             return newWRow
                         }
                     )
                 }
             )
+
+        W.forEach(
+            (w, indexWRow) => {
+                if (teached.includes(indexWRow))
+                    return;
+                const delta = teacherMs.reduce(
+                    (delta, m) => delta + Math.pow((m.t[indexWRow] - getS(m.x, w)), 2),
+                    0.0
+                )
+                if (delta < teacher.epsilon)
+                    teached.push(indexWRow)
+            }
+        )
+
     }
     setWeights(W)
     setSs(
