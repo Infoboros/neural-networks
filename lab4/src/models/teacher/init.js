@@ -57,22 +57,19 @@ const handleTeach = (teacher, {M, weight}) => {
                             const Nabgr = a.x.filter((x, indexW) => (x === 1) && (wRow[indexW] >= 0.999) && (wRow[indexW] <= 0.001))
                             const delta = Nak.length - Nagr.length - Nabgr.length
 
-                            const r = teacher.activation(a.x, wRow)
-                            if (r)
-                                return wRow
-                                        .map(
-                                            (oldW, index) => {
-                                                const newW = teacher.getNextWeight(
-                                                    oldW,
-                                                    teacher.nu,
-                                                    a.x[index],
-                                                    index,
-                                                    delta
-                                                )
-                                                return newW
-                                            }
-                                        )
                             return wRow
+                                .map(
+                                    (oldW, index) => {
+                                        const newW = teacher.getNextWeight(
+                                            oldW,
+                                            teacher.nu,
+                                            a.x[index],
+                                            index,
+                                            delta
+                                        )
+                                        return newW
+                                    }
+                                )
 
                         }
                     )

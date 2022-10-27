@@ -31,10 +31,10 @@ export const gammaTeacher = ({
             else if ((old - nu) < 0)
                 deltaW = 0 - old
             else
-                deltaW = nu - Sa / 25.
+                deltaW = nu - Sa / delta
         }
         else
-            deltaW = - Sa/25.
+            deltaW = - Sa/delta
 
         return old - deltaW
     },
