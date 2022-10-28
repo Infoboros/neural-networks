@@ -3,10 +3,10 @@ import {Button, MenuItem, Select, Typography} from "@mui/material";
 import {$teacher, getDiff, getS} from "../../models/teacher";
 import {useStore} from "effector-react";
 import {makeStyles} from "@mui/styles";
-import {$weight} from "../../models/weight";
+import {$weight, getA} from "../../models/weight";
 import {$input} from "../../models/input";
 import {$M, setDiffs} from "../../models/presets";
-import {$recognize, recognizeFunctions, setRecognize} from "../../models/recognize";
+import {$recognize, average, recognizeFunctions, setRecognize} from "../../models/recognize";
 
 const useStyles = makeStyles(() => ({
     wrapper: {
@@ -39,14 +39,33 @@ export default function Result() {
     }, [teacher])
 
     const handleRecognize = () => {
+        const Sfrontiers = weights.map((w, indexW) => {
+            const Ss = M.map(m => getS(getA([...m.x]), w))
+            const {
+                Sone, Sother
+            } = Ss.reduce(
+                (result, s, index) => M[index].t[indexW]
+                    ? ({
+                        ...result,
+                        Sone: result.Sone + s,
+                    })
+                    : ({
+                        ...result,
+                        Sother: result.Sother + s,
+                    }),
+                {Sone: 0, Sother: 0}
+            )
+            return average([Sone, Sother])
+        })
+
         setResult(
             weights.map(
-                (w) => recognize.recognize([...map], w)
+                (w, indexW) => recognize.recognize(getA([...map]), w, Sfrontiers[indexW])
             )
         )
         setS(
             weights.map(
-                w => getS([...map], w)
+                w => getS(getA([...map]), w)
             )
         )
         setDiffs(

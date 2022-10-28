@@ -37,7 +37,7 @@ const handleTeach = (teacher, {M, weight}) => {
                 )
                 return A.some(
                     (a, indexM) => {
-                        const t = teacher.activation(a.x, w, average([Sone, Sother / 4])) !== a.t[indexW]
+                        const t = teacher.activation(a.x, w, average([Sone, Sother])) !== a.t[indexW]
                         return t
                     }
                 )
@@ -45,7 +45,7 @@ const handleTeach = (teacher, {M, weight}) => {
         )
 
     let countOperations = 0;
-    while (checkNotEnd()) {
+    while (checkNotEnd() && countOperations < 100) {
         ++countOperations;
         A
             .forEach(
@@ -57,19 +57,40 @@ const handleTeach = (teacher, {M, weight}) => {
                             const Nabgr = a.x.filter((x, indexW) => (x === 1) && (wRow[indexW] >= 0.999) && (wRow[indexW] <= 0.001))
                             const delta = Nak.length - Nagr.length - Nabgr.length
 
+                            const Ss = A.map(a => getS(a.x, wRow))
+                            const {
+                                Sone, Sother
+                            } = Ss.reduce(
+                                (result, s, index) => A[index].t[indexWRow]
+                                    ? ({
+                                        ...result,
+                                        Sone: result.Sone + s,
+                                    })
+                                    : ({
+                                        ...result,
+                                        Sother: result.Sother + s,
+                                    }),
+                                {Sone: 0, Sother: 0}
+                            )
+
+                            const r = teacher.activation(a.x, wRow, average([Sone, Sother]))
+
+                            if (r !== a.t[indexWRow])
+
+                                return wRow
+                                    .map(
+                                        (oldW, index) => {
+                                            const newW = teacher.getNextWeight(
+                                                oldW,
+                                                teacher.nu,
+                                                a.x[index],
+                                                index,
+                                                delta
+                                            )
+                                            return newW
+                                        }
+                                    )
                             return wRow
-                                .map(
-                                    (oldW, index) => {
-                                        const newW = teacher.getNextWeight(
-                                            oldW,
-                                            teacher.nu,
-                                            a.x[index],
-                                            index,
-                                            delta
-                                        )
-                                        return newW
-                                    }
-                                )
 
                         }
                     )

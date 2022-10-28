@@ -8,7 +8,7 @@ export function average(nums) {
 export const recognizeFunctions = [
     {
         id: 1,
-        recognize: (xs, ws) => getS(xs, ws),
+        recognize: (xs, ws, frontier) => getS(xs, ws) > frontier,
         name: 'Бинарная функция'
     },
 
