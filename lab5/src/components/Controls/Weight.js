@@ -21,14 +21,14 @@ export default function Weight() {
     const classes = useStyles()
 
     const indexsY = [
-        [0, 1, 2, 3, 4],
-        [0, 1, 2, 3],
-        [0, 1, 2]
+        [0],
+        [0],
+        [0]
     ];
     const indexsX = [
-        [-1, 0, 1, 2, 3, 4],
-        [0, 1, 2, 3],
-        [0, 1, 2]
+        [0, 1],
+        [0, 1],
+        [0, 1]
     ]
 
     const weight = useStore($weight)
@@ -46,31 +46,19 @@ export default function Weight() {
                             {mws.map(
                                 currentWeight => (
                                     <table style={{marginBottom: '16px'}}>
-                                        {
-                                            indexsY[indexMws]
-                                                .map(
-                                                    indexY => (
-                                                        <tr>
-                                                            {
-                                                                indexsX[indexMws].map(
-                                                                    indexX => {
-                                                                        if (indexX === -1) {
-                                                                            if (indexY === 0)
-                                                                                return <td
-                                                                                    className={classes.td}>{currentWeight[0] && currentWeight[0].toFixed(4)}</td>
-                                                                            return <td className={classes.td}/>
-                                                                        }
-                                                                        return (
-                                                                            <td className={classes.td}>
-                                                                                {currentWeight[indexY * (indexsX.length - 1) + indexX + 1] && currentWeight[indexY * (indexsX.length - 1) + indexX + 1].toFixed(4)}
-                                                                            </td>
-                                                                        )
-                                                                    }
-                                                                )
-                                                            }
-                                                        </tr>
-                                                    )
-                                                )}
+
+                                        <tr>
+                                            {
+                                                currentWeight.map(
+                                                    w => {
+                                                        return (<td className={classes.td}>
+                                                            {w.toFixed(4)}
+                                                        </td>)
+                                                    }
+                                                )
+                                            }
+                                        </tr>
+
                                     </table>
                                 )
                             )}

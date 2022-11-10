@@ -11,7 +11,7 @@ const handleChangeTeacher = (_, teacher) => teacher
 const handleTeach = (teacher, {M, weight}) => {
     const teacherMs = M
 
-    let lastLearnData = [{}, {}, {}, {}, {}]
+    let lastLearnData = [{}]
     let W = weight
 
     const teached = []
@@ -31,7 +31,7 @@ const handleTeach = (teacher, {M, weight}) => {
 
         teacherMs.forEach(
             ({t}, index) => {
-                const epsilon = getLast(lastLearnData[index].directPropagation).out.reduce((res, Out, indexT) => res + Math.abs(Out-t[indexT]), 0)
+                const epsilon = getLast(lastLearnData[index].directPropagation).reduce((res, Out, indexT) => res + Math.abs(Out-t[indexT]), 0)
                 if ((epsilon) < teacher.epsilon)
                     teached.push(index)
             }
@@ -41,7 +41,7 @@ const handleTeach = (teacher, {M, weight}) => {
     }
     setWeights(W)
     setSs(
-        lastLearnData.map(forImage => getLast(forImage.directPropagation).out)
+        lastLearnData.map(forImage => getLast(forImage.directPropagation))
     )
     setCountOperations(countOperations)
 }
