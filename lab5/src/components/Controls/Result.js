@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, MenuItem, Select, Typography} from "@mui/material";
-import {$teacher, getDiff, getS} from "../../models/teacher";
+import {$teacher, getDiff, getLast, getS} from "../../models/teacher";
 import {useStore} from "effector-react";
 import {makeStyles} from "@mui/styles";
 import {$weight} from "../../models/weight";
@@ -39,15 +39,10 @@ export default function Result() {
     }, [teacher])
 
     const handleRecognize = () => {
-        setResult(
-            weights.map(
-                (w) => recognize.recognize([1, ...map], w)
-            )
-        )
+        const propagation  = getLast(recognize.recognize(map, weights))
+        setResult(propagation)
         setS(
-            weights.map(
-                w => getS([1, ...map], w)
-            )
+            propagation
         )
         setDiffs(
             M
@@ -62,7 +57,7 @@ export default function Result() {
             <Typography variant={'h5'}>
                 {
                     (result)
-                        ? `Результат: ${result.map(res => res > 0 ? 1 : -1)}`
+                        ? `Результат: ${result.map(res => res.toFixed(4))}`
                         : 'Сначала посчитай!'
                 }
             </Typography>
