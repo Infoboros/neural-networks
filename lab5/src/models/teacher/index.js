@@ -14,7 +14,7 @@ export const getS = (Xs, Ws) =>
 export const getNextLayerUout = (xs, mws, activation = (Uin) => Uin) =>
     mws.reduce(
         (Uouts, ws) => {
-            const Uin = getS([1, ...xs], ws)
+            const Uin = getS(xs, ws)
             const Uout = activation(Uin);
             return [...Uouts, Uout]
         },
@@ -22,7 +22,7 @@ export const getNextLayerUout = (xs, mws, activation = (Uin) => Uin) =>
     )
 
 export const getDirectPropagation = (xs, listMws) => {
-    const [_, ...propagation] = listMws.reduce(
+    const propagation = listMws.reduce(
         (propagation, mws) => [
             ...propagation,
             {
@@ -45,20 +45,41 @@ export const getErrorsBackPropagation = (ts, propagation, listMws) => {
 
     return reversedPropagation.reduce(
         (errors, {out: Os}, index) => {
-            if (index === 0)
-                return [Os.reduce(
-                    (result, o, k) => [...result, -o * (1 - o) * (ts[k] - o)],
+            if (index === (reversedPropagation.length-1))
+                return errors
+            const mws = reversedListMws[index]
+            if (index === 0) {
+                const error = Os.reduce(
+                    (result, o, k) => [...result, o * (1 - o) * (ts[k] - o)],
                     []
-                )]
-            else {
-                const lastErrors = getLast(errors)
-                const mws = reversedListMws[index - 1]
+                )
+                const Oins = reversedPropagation[index+1].out.map((_, j) => error.reduce((sum, error, k) => sum + error * mws[k][j], 0))
+                return [
+                    {
+                        error,
+                        Oins
+                    }
+                ]
+            } else {
+                const {Oins} = getLast(errors)
+
+                const error = Os.reduce(
+                    (result, o, k) => [...result, o * (1 - o) * (Oins[k])],
+                    []
+                )
+                const tmp = reversedPropagation[index+1].out.map((_, j) => j)
+                const newOins =  reversedPropagation[index+1].out.map(
+                    (_, j) => error.reduce(
+                        (sum, error, k) => sum + error * mws[k][j], 0
+                    )
+                )
                 return [
                     ...errors,
-                    Os.reduce(
-                        (result, o, j) => [...result, o * (1 - o) * (lastErrors.reduce((sum, error, k) => sum + error * mws[k][j], 0))],
-                        []
-                    )]
+                    {
+                        error,
+                        Oins: newOins
+                    }
+                ]
             }
         },
         []
@@ -75,7 +96,7 @@ const changeWeigths = (errors, listMws, propagation, nu) =>
                     (newMws, ws, indexM) => [
                         ...newMws,
                         ws.map(
-                            (wOld, indexW) => wOld + nu * errors[indexL][indexM] * propagation[indexL].in[indexM]
+                            (wOld, indexW) => wOld + nu * errors[indexL].error[indexM] * errors[indexL].Oins[indexW]
                         )],
                     []
                 )
@@ -105,7 +126,7 @@ export const deltaTeacher = ({
         }
     },
     name: 'Обратное распространение ошибки',
-    learningRate: 0.11,
+    learningRate: 0.3,
     epsilon: 0.05
 })
 
