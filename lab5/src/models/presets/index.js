@@ -6,7 +6,7 @@ export const $M = createStore([
         x: [
             0.5, 0.3
         ],
-        t: [1],
+        t: [1, 0, 0, 0, 0],
         S: [],
         diff: 0
     },
