@@ -12,14 +12,14 @@ export function equalArray(a, b){
 
 export const recognizeFunctions = [
     {
-        id: 1,
         recognize: (xs, ws, epsilon) => {
             const Z = ws.map(w => getS(xs, w))
 
             let t = Z.map(z => z / 25)
             let tNext = []
-
+            let count = 0
             while (true){
+                count++;
                 tNext = t.map(
                     (Ui, i) => {
                         const sum = epsilon * t.reduce((sum, Uj, j) => sum + (i === j ? 0 : Uj), 0)
@@ -34,12 +34,13 @@ export const recognizeFunctions = [
                     t = [...tNext]
             }
 
-            setCountOperations(0)
+            setCountOperations(count)
             return {
                 Z,
                 Y: tNext
             }
         },
+        id: 1,
         name: 'Сеть Хемминга'
     },
 

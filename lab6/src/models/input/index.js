@@ -2,10 +2,10 @@ import {createEvent, createStore} from "effector";
 
 
 export const $input = createStore([
-    0, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0, 0,
-    0, 0, 0, 0,
+    -1, -1, -1, -1,
+    -1, -1, -1, -1,
+    -1, -1, -1, -1,
+    -1, -1, -1, -1,
 ])
 
 export const setInput = createEvent()
