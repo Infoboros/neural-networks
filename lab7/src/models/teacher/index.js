@@ -22,7 +22,7 @@ export const getDiff = (A, B) => A.reduce(
 export const kohTeacher = ({
     id: 1,
     name: 'Сеть Кохонена',
-    epsilon: 0.05,
+    epsilon: 0.0005,
     alfa: 0.6,
     k: 0.75
 })

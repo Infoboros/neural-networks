@@ -39,9 +39,9 @@ export default function Result() {
     }, [teacher])
 
     const handleRecognize = () => {
-        const {Z, Y} = recognize.recognize(map, weights, teacher.epsilon)
-        setResult(Y)
-        setS(Z)
+        const result = recognize.recognize(map, weights, teacher.epsilon)
+        setResult(result)
+        setS(result)
         setDiffs(
             M
                 .map(
@@ -55,14 +55,7 @@ export default function Result() {
             <Typography variant={'h5'}>
                 {
                     (result)
-                        ? `Результат: ${result.map(res => res.toFixed(1))}`
-                        : 'Сначала посчитай!'
-                }
-            </Typography>
-            <Typography variant={'h5'}>
-                {
-                    (result)
-                        ? `Z: ${S}`
+                        ? `Результат: ${result.findIndex((item) => item === Math.max(...result))}`
                         : 'Сначала посчитай!'
                 }
             </Typography>
