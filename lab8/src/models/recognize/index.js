@@ -22,7 +22,7 @@ export const recognizeFunctions = [
             const checkEpsilon = (prevW, nextW) => {
                 return prevW.reduce(
                     (result, prevWr, indexR) =>
-                        result || (Math.abs(prevWr - nextW[indexR]) > 1e-10),
+                        result || (prevWr !== nextW[indexR]),
                     false
                 )
             }

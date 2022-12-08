@@ -33,7 +33,7 @@ export default function PresetList() {
                                 Мера сходства: {diff}
                             </Typography>
                             <Map
-                                width={'64px'}
+                                width={'16px'}
                                 x={x}
                                 key={index}
                             />

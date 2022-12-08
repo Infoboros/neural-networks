@@ -23,7 +23,7 @@ export default function InputView() {
         <div className={classes.wrapper}>
             <Map
                 x={input}
-                width={'256px'}
+                width={'64px'}
                 handleClickCell={handleInput}
             />
         </div>

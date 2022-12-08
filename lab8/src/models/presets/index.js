@@ -59,7 +59,7 @@ const examplePresets = [
         diff: 0
     }
 ]
-export const $M = createStore(examplePresets)
+export const $M = createStore(myPresets)
 
 
 export const setSs = createEvent()
